@@ -70,36 +70,6 @@ private:
         MyFile.close();
     }
 
-    void _Update()
-    {
-        std::vector<clsBankClient> _vClients = _LoadClientsDataFromFile();
-        for (clsBankClient &C : _vClients)
-        {
-            if (C.AccountNumber() == AccountNumber())
-            {
-                C = *this;
-                break;
-            }
-        }
-        _SaveClientsDataToFile(_vClients);
-    }
-
-    void _AddNew()
-    {
-        _AddDataLineToFile(_ConvertClientObjectToLine(*this));
-    }
-    void _AddDataLineToFile(string stDataLine)
-    {
-        fstream MyFile;
-        MyFile.open("HmedanBank.txt", ios::out | ios::app);
-
-        if (MyFile.is_open())
-        {
-
-            MyFile << stDataLine << endl;
-            MyFile.close();
-        }
-    }
 
 public:
     clsBankClient(enMode Mode, std::string FirstName, std::string LastName, std::string Email, std::string Phone, std::string AccountNumber, std::string PinCode, float AccountBalance)
@@ -203,42 +173,6 @@ public:
         clsBankClient client = Find(AccountNumber);
         return !client.IsEmpty();
     }
-    enum enSaveResults
-    {
-        svFailedEmptyObject = 0,
-        svSucceeded = 1,
-        svFailedAccountNumberExist =2,
-    };
-    enSaveResults save()
-    {
-
-        switch (_Mode)
-        {
-        case enMode::EmptyMode:
-            if (IsEmpty())
-            return enSaveResults::svFailedEmptyObject;
-
-        case enMode::UpdateMode:
-        { 
-            _Update();
-            return enSaveResults::svSucceeded;
-        }
-        case enMode::AddNewClient:
-        //here I will add new record to the file or database in future
-        if(IsClientExist(_AccountNumber))
-        {
-            return enSaveResults::svFailedAccountNumberExist;
-        }else{
-            _AddNew();
-            // We need to set the mode to update after add new
-            _Mode = enMode::UpdateMode;
-            return enSaveResults::svSucceeded;
-        }
-     
-        }
-    }
-   static clsBankClient GetAddNewClientObject(std::string AccountNumber)
-    {
-        return clsBankClient(enMode::AddNewClient,"","", "", "", AccountNumber, "", 0);
-    }
+    
+ 
 };
