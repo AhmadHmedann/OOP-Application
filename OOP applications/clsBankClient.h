@@ -1,10 +1,11 @@
+#pragma once;
 #include <iostream>
 #include <vector>
 #include <string>
 #include <fstream>
 #include "clsString.h"
 #include "clsPerson.h"
- class clsBankClient : public clsPerson
+class clsBankClient : public clsPerson
 {
 private:
     enum enMode
@@ -21,6 +22,10 @@ private:
     static clsBankClient _ConvertLineToClientObject(std::string line, std::string Separator = "#//#")
     {
         std::vector<std::string> vString = clsString::Split(line, Separator);
+        if (vString.size() != 7)
+        {
+            return _GetEmptyClientObject();
+        }
         return clsBankClient(enMode::UpdateMode, vString[0], vString[1], vString[2], vString[3], vString[4], vString[5], std::stod(vString[6]));
     }
     static clsBankClient _GetEmptyClientObject()
@@ -34,7 +39,7 @@ private:
                Client.Email() + Separator +
                Client.Phone() + Separator +
                Client.AccountNumber() + Separator +
-               Client.PinCode() + Separator + to_string(Client.AccountBalance());
+               Client.PinCode() + Separator + std::to_string(Client.AccountBalance());
     }
 
     static std::vector<clsBankClient> _LoadClientsDataFromFile()
@@ -51,8 +56,9 @@ private:
                 vClients.push_back(client);
             }
         }
-        return vClients;
         MyFile.close();
+        return vClients;
+      
     }
     static void _SaveClientsDataToFile(std::vector<clsBankClient> vClients)
     {
@@ -67,10 +73,22 @@ private:
             }
             MyFile.close();
         }
-        MyFile.close();
+        
     }
 
-
+    void _Update()
+    {
+        std::vector<clsBankClient> vClients = _LoadClientsDataFromFile();
+        for(clsBankClient & C: vClients)
+        {
+            if(C.AccountNumber() == _AccountNumber)
+            {
+                C = *this; //Find the old client in the vector and replace it with the current updated object.
+                break;
+            }
+        }
+        _SaveClientsDataToFile(vClients);
+    }
 public:
     clsBankClient(enMode Mode, std::string FirstName, std::string LastName, std::string Email, std::string Phone, std::string AccountNumber, std::string PinCode, float AccountBalance)
         : clsPerson(FirstName, LastName, Email, Phone)
@@ -137,7 +155,6 @@ public:
                     MyFile.close();
                     return client;
                 }
-              
             }
 
             MyFile.close();
@@ -161,7 +178,6 @@ public:
                     MyFile.close();
                     return client;
                 }
-               
             }
 
             MyFile.close();
@@ -173,6 +189,30 @@ public:
         clsBankClient client = Find(AccountNumber);
         return !client.IsEmpty();
     }
-    
- 
+
+    enum enSaveResults
+    {
+        svFailedEmptyObject = 0,
+        svSucceeded = 1
+    };
+
+    enSaveResults Save()
+    {   
+        switch (_Mode)
+        {
+        case enMode::UpdateMode:
+        {
+            _Update();
+            return enSaveResults::svSucceeded;
+        }
+        case enMode::EmptyMode:
+        {
+            if(IsEmpty())
+            return enSaveResults::svFailedEmptyObject;
+        }
+        
+        default:
+            break;
+        }
+    }
 };
