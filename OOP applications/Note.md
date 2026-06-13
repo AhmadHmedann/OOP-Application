@@ -28,3 +28,26 @@ static bool IsClientExist(std::string AccountNumber)
 enSaveResults Save() based on the mood of that object i will return enSaveResults::svFailed... if the _Mode == enMode::EmptyMode or I will Update the file with the new data and return enSaveResults::scSucceeded if the  _Mode == enMode::Updated 
 
                                         &&&&&&&&&&& Add new Client  &&&&&&&&&&&
+void _AddNew()
+void _AddNewDataLineToFile(std::string Line)
+static clsBankClient GetAddNewClientObject(std::string AccountNumber) with enMode::AddNewClient;
+add this option to enSaveResults  ..svFailedAccountNumberExists=2,
+Update my save Function add new case {
+     case enMode::AddNewClient:
+        {
+            if (IsClientExist(_AccountNumber))
+            {
+                return enSaveResults::svFailedAccountNumberExists;
+            }else{
+
+                _AddNew();
+                _Mode = enMode::UpdateMode;
+                return enSaveResults::svSucceeded;
+            }
+            break;
+        }
+}
+
+
+                                                        Delete a Client
+

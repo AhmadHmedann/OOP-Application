@@ -1,4 +1,4 @@
-#pragma once;
+#pragma once
 #include <iostream>
 #include <vector>
 #include <string>
@@ -18,6 +18,7 @@ private:
     std::string _AccountNumber;
     std::string _PinCode;
     float _AccountBalance;
+    bool _MarkToDelete = false;
 
     static clsBankClient _ConvertLineToClientObject(std::string line, std::string Separator = "#//#")
     {
@@ -68,7 +69,10 @@ private:
             std::string line;
             for (const clsBankClient &C : vClients)
             {
-                MyFile << _ConvertClientObjectToLine(C) << std::endl;
+                if (C._MarkToDelete == false)
+                {
+                    MyFile << _ConvertClientObjectToLine(C) << std::endl;
+                }
             }
             MyFile.close();
         }
@@ -91,14 +95,18 @@ private:
     {
         _AddNewDataLineToFile(_ConvertClientObjectToLine(*this));
     }
-    void _AddNewDataLineToFile(std::string Line){
+    void _AddNewDataLineToFile(std::string Line)
+    {
         std::fstream MyFile;
-        MyFile.open("HmedanBank.txt",std::ios::out | std::ios::app);
-        if(MyFile.is_open()){
-            MyFile<<Line<<endl;
+        MyFile.open("HmedanBank.txt", std::ios::out | std::ios::app);
+        if (MyFile.is_open())
+        {
+            MyFile << Line << std::endl;
         }
+        break;
         MyFile.close();
     }
+
 public:
     clsBankClient(enMode Mode, std::string FirstName, std::string LastName, std::string Email, std::string Phone, std::string AccountNumber, std::string PinCode, float AccountBalance)
         : clsPerson(FirstName, LastName, Email, Phone)
@@ -226,7 +234,9 @@ public:
             if (IsClientExist(_AccountNumber))
             {
                 return enSaveResults::svFailedAccountNumberExists;
-            }else{
+            }
+            else
+            {
 
                 _AddNew();
                 _Mode = enMode::UpdateMode;
@@ -236,11 +246,28 @@ public:
         }
 
         default:
-            break;
+            return enSaveResults::svFailedEmptyObject;
         }
     }
     static clsBankClient GetAddNewClientObject(std::string AccountNumber)
     {
         return clsBankClient(enMode::AddNewClient, "", "", "", "", AccountNumber, "", 0);
     }
+
+    bool Delete()
+    {
+        std::vector<clsBankClient> vClients = _LoadClientsDataFromFile();
+        
+        for (clsBankClient &C: vClients)
+        {
+            if(C.AccountNumber() == _AccountNumber)
+            {
+                C._MarkToDelete = true;
+                break;
+            }
+        }
+        _SaveClientsDataToFile(vClients);
+        *this = _GetEmptyClientObject();
+        return true ;
+    }   
 };
