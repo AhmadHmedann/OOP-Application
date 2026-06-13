@@ -23,4 +23,8 @@ static clsBankClient Find(std::string AccountNumber, std::string PinCode) if I f
 static bool IsClientExist(std::string AccountNumber)
 
 }
+  void _Update() I use this to Find the old client in the vector and replace it with the current updated object, and  overwrite vClients to the file
 
+enSaveResults Save() based on the mood of that object i will return enSaveResults::svFailed... if the _Mode == enMode::EmptyMode or I will Update the file with the new data and return enSaveResults::scSucceeded if the  _Mode == enMode::Updated 
+
+                                        &&&&&&&&&&& Add new Client  &&&&&&&&&&&

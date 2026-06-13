@@ -58,7 +58,6 @@ private:
         }
         MyFile.close();
         return vClients;
-      
     }
     static void _SaveClientsDataToFile(std::vector<clsBankClient> vClients)
     {
@@ -73,21 +72,32 @@ private:
             }
             MyFile.close();
         }
-        
     }
 
     void _Update()
     {
         std::vector<clsBankClient> vClients = _LoadClientsDataFromFile();
-        for(clsBankClient & C: vClients)
+        for (clsBankClient &C : vClients)
         {
-            if(C.AccountNumber() == _AccountNumber)
+            if (C.AccountNumber() == _AccountNumber)
             {
-                C = *this; //Find the old client in the vector and replace it with the current updated object.
+                C = *this; // Find the old client in the vector and replace it with the current updated object.
                 break;
             }
         }
         _SaveClientsDataToFile(vClients);
+    }
+    void _AddNew()
+    {
+        _AddNewDataLineToFile(_ConvertClientObjectToLine(*this));
+    }
+    void _AddNewDataLineToFile(std::string Line){
+        std::fstream MyFile;
+        MyFile.open("HmedanBank.txt",std::ios::out | std::ios::app);
+        if(MyFile.is_open()){
+            MyFile<<Line<<endl;
+        }
+        MyFile.close();
     }
 public:
     clsBankClient(enMode Mode, std::string FirstName, std::string LastName, std::string Email, std::string Phone, std::string AccountNumber, std::string PinCode, float AccountBalance)
@@ -193,11 +203,12 @@ public:
     enum enSaveResults
     {
         svFailedEmptyObject = 0,
-        svSucceeded = 1
+        svSucceeded = 1,
+        svFailedAccountNumberExists = 2,
     };
 
     enSaveResults Save()
-    {   
+    {
         switch (_Mode)
         {
         case enMode::UpdateMode:
@@ -207,12 +218,29 @@ public:
         }
         case enMode::EmptyMode:
         {
-            if(IsEmpty())
-            return enSaveResults::svFailedEmptyObject;
+            if (IsEmpty())
+                return enSaveResults::svFailedEmptyObject;
         }
-        
+        case enMode::AddNewClient:
+        {
+            if (IsClientExist(_AccountNumber))
+            {
+                return enSaveResults::svFailedAccountNumberExists;
+            }else{
+
+                _AddNew();
+                _Mode = enMode::UpdateMode;
+                return enSaveResults::svSucceeded;
+            }
+            break;
+        }
+
         default:
             break;
         }
+    }
+    static clsBankClient GetAddNewClientObject(std::string AccountNumber)
+    {
+        return clsBankClient(enMode::AddNewClient, "", "", "", "", AccountNumber, "", 0);
     }
 };

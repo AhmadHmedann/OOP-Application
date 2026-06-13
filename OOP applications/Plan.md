@@ -1,4 +1,4 @@
-Update client Plan
+                                        Update client Plan
 
 void Update()
 {
@@ -16,4 +16,24 @@ void Update()
             finally return enSaveResult::svSucceeded
         } 
     }
+}   
+                                    Add New Client
+void AddNewClient()
+{
+    1.First I need a unique Account Number,
+    2.I need to create an object( client) with _Mode AddNewClient and the account number
+    3.I will use ReadClientInfo Function to add that Info
+    Now I have a new object (client) with all the data(the mode is AddNewClient) in my scope (AddNewClient())
+    Because I want to separate the UI  I Must complete the process in my class
+    In the mode I already added AddNewClient mode in my enMode
+    4. I need to add add new client process to my save function 
+    so, case enMode::AddNewClient:
+    {
+        _AddNew()    I convert the object to line and add it to the file
+                            ////// there is  a question here  \\\\\\\\\\\\\
+        next change the mode to updated (question what is the benefit from that ??) I guess we will figure out soon just be patient
+        and lastly i return enSaveResults::svSucceeded;
+    }
+    5. lastly I go to My function and deal with UI
+
 }
