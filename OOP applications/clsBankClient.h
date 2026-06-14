@@ -103,7 +103,7 @@ private:
         {
             MyFile << Line << std::endl;
         }
-        break;
+        
         MyFile.close();
     }
 
@@ -270,4 +270,9 @@ public:
         *this = _GetEmptyClientObject();
         return true ;
     }   
+    static std::vector<clsBankClient> GetClientsList()
+    {
+        return _LoadClientsDataFromFile();
+    }
+
 };

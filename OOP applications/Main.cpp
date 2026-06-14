@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 #include "clsBankClient.h"
 #include "clsInputValidation.h"
@@ -99,23 +100,61 @@ void DeleteClient()
     clsBankClient Client = clsBankClient::Find(AccountNumber);
     Client.Print();
 
-    
     char Confirm;
-    std::cout<<"Are you sure you want to Delete this client? Y/N? ";
-    std::cin>>Confirm;
-    if(std::tolower(Confirm)=='y')
+    std::cout << "Are you sure you want to Delete this client? Y/N? ";
+    std::cin >> Confirm;
+    if (std::tolower(Confirm) == 'y')
     {
-        if(Client.Delete())
+        if (Client.Delete())
         {
-            std::cout<<"\nClient Deleted Successfully. \n";
-            Client.Print(); 
-        }else{
-            std::cout<<"Error: Client was not Deleted \n"; 
+            std::cout << "\nClient Deleted Successfully. \n";
+            Client.Print();
+        }
+        else
+        {
+            std::cout << "Error: Client was not Deleted \n";
         }
     }
 }
 
+void PrintClientRecordLine(clsBankClient Client)
+{
+    std::cout << "| " << std::setw(15) << std::left << Client.AccountNumber()
+              << "| " << std::setw(20) << std::left << Client.FullName()
+              << "| " << std::setw(12) << std::left << Client.Phone()
+              << "| " << std::setw(20) << std::left << Client.Email()
+              << "| " << std::setw(10) << std::left << Client.PinCode()
+              << "| " << std::setw(12) << std::left << Client.AccountBalance();
+}
+void ShowClientList()
+{
+    std::vector<clsBankClient> vClients = clsBankClient::GetClientsList();
+    std::cout << "\t\t\t\t\tClient List (" << vClients.size() << ") Client (s).\n";
+    std::cout << "\n____________________________________________________________________________________________________________________\n";
+    std::cout << "| " << std::setw(15) << std::left << "Account Number"
+              << "| " << std::setw(20) << std::left << "Full Name"
+              << "| " << std::setw(12) << std::left << "Phone"
+              << "| " << std::setw(20) << std::left << "Email"
+              << "| " << std::setw(10) << std::left << "PinCode"
+              << "| " << std::setw(12) << std::left << "Balance";
+    std::cout << "\n____________________________________________________________________________________________________________________\n\n";
+
+    if (vClients.size() == 0)
+    {
+        std::cout << "\t\t\t\tNo Clients Available In the System!";
+    }
+    else
+    {
+
+        for (const clsBankClient &c : vClients)
+        {
+            PrintClientRecordLine(c);
+            std::cout << std::endl;
+        }
+        std::cout << "\n____________________________________________________________________________________________________________________\n";
+    }
+}
 int main()
 {
-    DeleteClient();
+    ShowClientList();
 }
