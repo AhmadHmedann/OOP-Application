@@ -154,7 +154,51 @@ void ShowClientList()
         std::cout << "\n____________________________________________________________________________________________________________________\n";
     }
 }
+
+void PrintClientRecordBalanceLine(clsBankClient Client)
+{
+
+    std::cout << "| " << std::setw(15) << std::left << Client.AccountNumber();
+    std::cout << "| " << std::setw(40) << std::left << Client.FullName();
+    std::cout << "| " << std::setw(12) << std::left << Client.AccountBalance();
+}
+
+void ShowTotalBalances()
+{
+
+    vector<clsBankClient> vClients = clsBankClient::GetClientsList();
+
+    std::cout << "\n\t\t\t\t\tBalances List (" << vClients.size() << ") Client(s).";
+    std::cout << "\n_______________________________________________________";
+    cout << "_________________________________________\n"
+         << std::endl;
+
+    std::cout << "| " << left << setw(15) << "Account Number";
+    std::cout << "| " << left << setw(40) << "Client Name";
+    std::cout << "| " << left << setw(12) << "Balance";
+    std::cout << "\n_______________________________________________________";
+    std::cout << "_________________________________________\n"
+         << std::endl;
+
+    double TotalBalances = clsBankClient::GetTotalBalances();
+
+    if (vClients.size() == 0)
+        cout << "\t\t\t\tNo Clients Available In the System!";
+    else
+
+        for (clsBankClient &Client : vClients)
+        {
+            PrintClientRecordBalanceLine(Client);
+            std::cout << std::endl;
+        }
+
+    std::cout << "\n_______________________________________________________";
+    std::cout << "_________________________________________\n"
+         << endl;
+    std::cout << "\t\t\t\t\t   Total Balances = " << TotalBalances << endl;
+    std::cout << "\t\t\t\t\t   ( " << clsUtilities::NumberToText(TotalBalances) << ")";
+}
 int main()
 {
-    ShowClientList();
+    ShowTotalBalances();
 }
