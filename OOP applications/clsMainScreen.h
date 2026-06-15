@@ -72,7 +72,7 @@ private:
         std::cout << std::setw(37) << std::left << "" << "\n\tPress any key to go back to Main Menu...\n";
         std::cin.get();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        ShowMainMenu();
+        
     }
     static void _PerformMainMenuOption(enMainMenuOptions option)
     {
@@ -139,7 +139,12 @@ private:
 public:
     static void ShowMainMenu()
     {
-
+        // Issue:
+        // `_GoBackToMainMenu()` calls `ShowMainMenu()` again, which creates recursive function calls.
+        // Each time the user goes back to the main menu, a new function call is added to the call stack.
+        // This is not a good design for menu navigation. A loop should be used instead.
+        enMainMenuOptions Option;
+        do{
         _ClearScreen();
         _DrawScreenHeader("\t\tMain Screen");
 
@@ -155,7 +160,8 @@ public:
         std::cout << std::setw(37) << std::left << "" << "\t[7] Manage Users.\n";
         std::cout << std::setw(37) << std::left << "" << "\t[8] Logout.\n";
         std::cout << std::setw(37) << std::left << "" << "===========================================\n";
-
-        _PerformMainMenuOption((enMainMenuOptions)_ReadMainMenuOption());
+        Option = (enMainMenuOptions)_ReadMainMenuOption();
+            _PerformMainMenuOption(Option);
+        }while(Option != enMainMenuOptions::eExit);
     }
 };
