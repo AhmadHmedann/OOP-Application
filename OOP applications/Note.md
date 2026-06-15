@@ -51,3 +51,23 @@ Update my save Function add new case {
 
                                                         Delete a Client
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+#important notes: 
+each screen should be i a separate class and should inherits the clsScreen.
+cls..... : protected clsScreen{
+
+};
+// This Screen is for future feature by example if I want to Add a clock for all screen that I have
+// so I will make all screen inherits this screen with  a Protected mode

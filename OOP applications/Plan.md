@@ -54,3 +54,9 @@ void AddNewClient()
 
 
     
+                                    MainMenuScreen
+// Note:
+// The purpose of this class is to build and test the structure of the main menu
+// before connecting it to the full project screens.
+// For now, each menu option displays a placeholder message such as "Coming soon".
+// Later, these placeholder functions will be replaced with calls to the actual screen classes.

@@ -1,204 +1,209 @@
-#include <iostream>
-#include <iomanip>
-using namespace std;
-#include "clsBankClient.h"
-#include "clsInputValidation.h"
+// #include <iostream>
+// #include <iomanip>
+// using namespace std;
+// #include "clsBankClient.h"
+// #include "clsInputValidation.h"
 
-void ReadClientInfo(clsBankClient &Client)
-{
-    std::cout << "\nEnter FirstName: ";
-    Client.SetFirstName(clsInputValidation::ReadString());
-    std::cout << "\nEnter LastName; ";
-    Client.SetLastName(clsInputValidation::ReadString());
-    std::cout << "\nEnter Email: ";
-    Client.SetEmail(clsInputValidation::ReadString());
-    std::cout << "\nEnter Phone: ";
-    Client.SetPhone(clsInputValidation::ReadString());
-    std::cout << "\nEnter PinCode: ";
-    Client.SetPinCode(clsInputValidation::ReadString());
-    std::cout << "\nEnter Account Balance; ";
-    Client.SetAccountBalance(clsInputValidation::ReadFloatNumber());
-}
-void UpdateClient()
-{
-    std::cout << "\nPlease Enter Account Number: ";
-    std::string AccountNumber = clsInputValidation::ReadString();
+// void ReadClientInfo(clsBankClient &Client)
+// {
+//     std::cout << "\nEnter FirstName: ";
+//     Client.SetFirstName(clsInputValidation::ReadString());
+//     std::cout << "\nEnter LastName; ";
+//     Client.SetLastName(clsInputValidation::ReadString());
+//     std::cout << "\nEnter Email: ";
+//     Client.SetEmail(clsInputValidation::ReadString());
+//     std::cout << "\nEnter Phone: ";
+//     Client.SetPhone(clsInputValidation::ReadString());
+//     std::cout << "\nEnter PinCode: ";
+//     Client.SetPinCode(clsInputValidation::ReadString());
+//     std::cout << "\nEnter Account Balance; ";
+//     Client.SetAccountBalance(clsInputValidation::ReadFloatNumber());
+// }
+// void UpdateClient()
+// {
+//     std::cout << "\nPlease Enter Account Number: ";
+//     std::string AccountNumber = clsInputValidation::ReadString();
 
-    while (!clsBankClient::IsClientExist(AccountNumber))
-    {
-        std::cout << "Account number is not found, Please Enter another one: ";
-        AccountNumber = clsInputValidation::ReadString();
-    }
-    clsBankClient Client = clsBankClient::Find(AccountNumber);
-    Client.Print();
-    std::cout << "\n\n Update Client Info:";
-    std::cout << "\n______________________________________________________________\n";
-    ReadClientInfo(Client);
-    // note: this code below is to separate UI
-    clsBankClient::enSaveResults SaveResults = Client.Save();
-    switch (SaveResults)
-    {
-    case clsBankClient::enSaveResults::svSucceeded:
-    {
-        Client.Print();
-        std::cout << "\nAccount Updated successfully :)";
-        break;
-    }
-    case clsBankClient::enSaveResults::svFailedEmptyObject:
-    {
-        std::cout << "\nError, Account was not save because it's Empty. ";
-        break;
-    }
-    default:
-    {
-        std::cout << "\nUnknown save result.";
-        break;
-    }
-    }
-}
-void AddNewClient()
-{
-    std::cout << "Please Enter Account Number: ";
-    std::string AccountNumber = clsInputValidation::ReadString();
-    while (clsBankClient::IsClientExist(AccountNumber))
-    {
-        std::cout << "\nClient with [" << AccountNumber << "] is already exist, please Enter another one.";
-        AccountNumber = clsInputValidation::ReadString();
-    }
-    clsBankClient NewClient = clsBankClient::GetAddNewClientObject(AccountNumber);
-    ReadClientInfo(NewClient);
-    clsBankClient::enSaveResults SaveResults = NewClient.Save();
-    switch (SaveResults)
-    {
-    case clsBankClient::enSaveResults::svSucceeded:
-        std::cout << "\nClient Added successfully :)";
-        break;
-    case clsBankClient::enSaveResults::svFailedAccountNumberExists:
-        std::cout << "\nError account was not saved because account number is used!\n";
-        break;
-    case clsBankClient::enSaveResults::svFailedEmptyObject:
-    {
-        std::cout << "\nError, Account was not save because it's Empty. ";
-        break;
-    }
-    default:
-    {
-        std::cout << "\nUnknown save result.";
-        break;
-    }
-    }
-}
-void DeleteClient()
-{
-    std::cout << "\nPlease Enter an Account Number: ";
-    std::string AccountNumber = clsInputValidation::ReadString();
-    while (!clsBankClient::IsClientExist(AccountNumber))
-    {
-        std::cout << "Account Number is not Found. Please Enter another one: ";
-        AccountNumber = clsInputValidation::ReadString();
-    }
-    clsBankClient Client = clsBankClient::Find(AccountNumber);
-    Client.Print();
+//     while (!clsBankClient::IsClientExist(AccountNumber))
+//     {
+//         std::cout << "Account number is not found, Please Enter another one: ";
+//         AccountNumber = clsInputValidation::ReadString();
+//     }
+//     clsBankClient Client = clsBankClient::Find(AccountNumber);
+//     Client.Print();
+//     std::cout << "\n\n Update Client Info:";
+//     std::cout << "\n______________________________________________________________\n";
+//     ReadClientInfo(Client);
+//     // note: this code below is to separate UI
+//     clsBankClient::enSaveResults SaveResults = Client.Save();
+//     switch (SaveResults)
+//     {
+//     case clsBankClient::enSaveResults::svSucceeded:
+//     {
+//         Client.Print();
+//         std::cout << "\nAccount Updated successfully :)";
+//         break;
+//     }
+//     case clsBankClient::enSaveResults::svFailedEmptyObject:
+//     {
+//         std::cout << "\nError, Account was not save because it's Empty. ";
+//         break;
+//     }
+//     default:
+//     {
+//         std::cout << "\nUnknown save result.";
+//         break;
+//     }
+//     }
+// }
+// void AddNewClient()
+// {
+//     std::cout << "Please Enter Account Number: ";
+//     std::string AccountNumber = clsInputValidation::ReadString();
+//     while (clsBankClient::IsClientExist(AccountNumber))
+//     {
+//         std::cout << "\nClient with [" << AccountNumber << "] is already exist, please Enter another one.";
+//         AccountNumber = clsInputValidation::ReadString();
+//     }
+//     clsBankClient NewClient = clsBankClient::GetAddNewClientObject(AccountNumber);
+//     ReadClientInfo(NewClient);
+//     clsBankClient::enSaveResults SaveResults = NewClient.Save();
+//     switch (SaveResults)
+//     {
+//     case clsBankClient::enSaveResults::svSucceeded:
+//         std::cout << "\nClient Added successfully :)";
+//         break;
+//     case clsBankClient::enSaveResults::svFailedAccountNumberExists:
+//         std::cout << "\nError account was not saved because account number is used!\n";
+//         break;
+//     case clsBankClient::enSaveResults::svFailedEmptyObject:
+//     {
+//         std::cout << "\nError, Account was not save because it's Empty. ";
+//         break;
+//     }
+//     default:
+//     {
+//         std::cout << "\nUnknown save result.";
+//         break;
+//     }
+//     }
+// }
+// void DeleteClient()
+// {
+//     std::cout << "\nPlease Enter an Account Number: ";
+//     std::string AccountNumber = clsInputValidation::ReadString();
+//     while (!clsBankClient::IsClientExist(AccountNumber))
+//     {
+//         std::cout << "Account Number is not Found. Please Enter another one: ";
+//         AccountNumber = clsInputValidation::ReadString();
+//     }
+//     clsBankClient Client = clsBankClient::Find(AccountNumber);
+//     Client.Print();
 
-    char Confirm;
-    std::cout << "Are you sure you want to Delete this client? Y/N? ";
-    std::cin >> Confirm;
-    if (std::tolower(Confirm) == 'y')
-    {
-        if (Client.Delete())
-        {
-            std::cout << "\nClient Deleted Successfully. \n";
-            Client.Print();
-        }
-        else
-        {
-            std::cout << "Error: Client was not Deleted \n";
-        }
-    }
-}
+//     char Confirm;
+//     std::cout << "Are you sure you want to Delete this client? Y/N? ";
+//     std::cin >> Confirm;
+//     if (std::tolower(Confirm) == 'y')
+//     {
+//         if (Client.Delete())
+//         {
+//             std::cout << "\nClient Deleted Successfully. \n";
+//             Client.Print();
+//         }
+//         else
+//         {
+//             std::cout << "Error: Client was not Deleted \n";
+//         }
+//     }
+// }
 
-void PrintClientRecordLine(clsBankClient Client)
-{
-    std::cout << "| " << std::setw(15) << std::left << Client.AccountNumber()
-              << "| " << std::setw(20) << std::left << Client.FullName()
-              << "| " << std::setw(12) << std::left << Client.Phone()
-              << "| " << std::setw(20) << std::left << Client.Email()
-              << "| " << std::setw(10) << std::left << Client.PinCode()
-              << "| " << std::setw(12) << std::left << Client.AccountBalance();
-}
-void ShowClientList()
-{
-    std::vector<clsBankClient> vClients = clsBankClient::GetClientsList();
-    std::cout << "\t\t\t\t\tClient List (" << vClients.size() << ") Client (s).\n";
-    std::cout << "\n____________________________________________________________________________________________________________________\n";
-    std::cout << "| " << std::setw(15) << std::left << "Account Number"
-              << "| " << std::setw(20) << std::left << "Full Name"
-              << "| " << std::setw(12) << std::left << "Phone"
-              << "| " << std::setw(20) << std::left << "Email"
-              << "| " << std::setw(10) << std::left << "PinCode"
-              << "| " << std::setw(12) << std::left << "Balance";
-    std::cout << "\n____________________________________________________________________________________________________________________\n\n";
+// void PrintClientRecordLine(clsBankClient Client)
+// {
+//     std::cout << "| " << std::setw(15) << std::left << Client.AccountNumber()
+//               << "| " << std::setw(20) << std::left << Client.FullName()
+//               << "| " << std::setw(12) << std::left << Client.Phone()
+//               << "| " << std::setw(20) << std::left << Client.Email()
+//               << "| " << std::setw(10) << std::left << Client.PinCode()
+//               << "| " << std::setw(12) << std::left << Client.AccountBalance();
+// }
+// void ShowClientList()
+// {
+//     std::vector<clsBankClient> vClients = clsBankClient::GetClientsList();
+//     std::cout << "\t\t\t\t\tClient List (" << vClients.size() << ") Client (s).\n";
+//     std::cout << "\n____________________________________________________________________________________________________________________\n";
+//     std::cout << "| " << std::setw(15) << std::left << "Account Number"
+//               << "| " << std::setw(20) << std::left << "Full Name"
+//               << "| " << std::setw(12) << std::left << "Phone"
+//               << "| " << std::setw(20) << std::left << "Email"
+//               << "| " << std::setw(10) << std::left << "PinCode"
+//               << "| " << std::setw(12) << std::left << "Balance";
+//     std::cout << "\n____________________________________________________________________________________________________________________\n\n";
 
-    if (vClients.size() == 0)
-    {
-        std::cout << "\t\t\t\tNo Clients Available In the System!";
-    }
-    else
-    {
+//     if (vClients.size() == 0)
+//     {
+//         std::cout << "\t\t\t\tNo Clients Available In the System!";
+//     }
+//     else
+//     {
 
-        for (const clsBankClient &c : vClients)
-        {
-            PrintClientRecordLine(c);
-            std::cout << std::endl;
-        }
-        std::cout << "\n____________________________________________________________________________________________________________________\n";
-    }
-}
+//         for (const clsBankClient &c : vClients)
+//         {
+//             PrintClientRecordLine(c);
+//             std::cout << std::endl;
+//         }
+//         std::cout << "\n____________________________________________________________________________________________________________________\n";
+//     }
+// }
 
-void PrintClientRecordBalanceLine(clsBankClient Client)
-{
+// void PrintClientRecordBalanceLine(clsBankClient Client)
+// {
 
-    std::cout << "| " << std::setw(15) << std::left << Client.AccountNumber();
-    std::cout << "| " << std::setw(40) << std::left << Client.FullName();
-    std::cout << "| " << std::setw(12) << std::left << Client.AccountBalance();
-}
+//     std::cout << "| " << std::setw(15) << std::left << Client.AccountNumber();
+//     std::cout << "| " << std::setw(40) << std::left << Client.FullName();
+//     std::cout << "| " << std::setw(12) << std::left << Client.AccountBalance();
+// }
 
-void ShowTotalBalances()
-{
+// void ShowTotalBalances()
+// {
 
-    vector<clsBankClient> vClients = clsBankClient::GetClientsList();
+//     vector<clsBankClient> vClients = clsBankClient::GetClientsList();
 
-    std::cout << "\n\t\t\t\t\tBalances List (" << vClients.size() << ") Client(s).";
-    std::cout << "\n_______________________________________________________";
-    cout << "_________________________________________\n"
-         << std::endl;
+//     std::cout << "\n\t\t\t\t\tBalances List (" << vClients.size() << ") Client(s).";
+//     std::cout << "\n_______________________________________________________";
+//     cout << "_________________________________________\n"
+//          << std::endl;
 
-    std::cout << "| " << left << setw(15) << "Account Number";
-    std::cout << "| " << left << setw(40) << "Client Name";
-    std::cout << "| " << left << setw(12) << "Balance";
-    std::cout << "\n_______________________________________________________";
-    std::cout << "_________________________________________\n"
-         << std::endl;
+//     std::cout << "| " << left << setw(15) << "Account Number";
+//     std::cout << "| " << left << setw(40) << "Client Name";
+//     std::cout << "| " << left << setw(12) << "Balance";
+//     std::cout << "\n_______________________________________________________";
+//     std::cout << "_________________________________________\n"
+//          << std::endl;
 
-    double TotalBalances = clsBankClient::GetTotalBalances();
+//     double TotalBalances = clsBankClient::GetTotalBalances();
 
-    if (vClients.size() == 0)
-        cout << "\t\t\t\tNo Clients Available In the System!";
-    else
+//     if (vClients.size() == 0)
+//         cout << "\t\t\t\tNo Clients Available In the System!";
+//     else
 
-        for (clsBankClient &Client : vClients)
-        {
-            PrintClientRecordBalanceLine(Client);
-            std::cout << std::endl;
-        }
+//         for (clsBankClient &Client : vClients)
+//         {
+//             PrintClientRecordBalanceLine(Client);
+//             std::cout << std::endl;
+//         }
 
-    std::cout << "\n_______________________________________________________";
-    std::cout << "_________________________________________\n"
-         << endl;
-    std::cout << "\t\t\t\t\t   Total Balances = " << TotalBalances << endl;
-    std::cout << "\t\t\t\t\t   ( " << clsUtilities::NumberToText(TotalBalances) << ")";
-}
+//     std::cout << "\n_______________________________________________________";
+//     std::cout << "_________________________________________\n"
+//          << endl;
+//     std::cout << "\t\t\t\t\t   Total Balances = " << TotalBalances << endl;
+//     std::cout << "\t\t\t\t\t   ( " << clsUtilities::NumberToText(TotalBalances) << ")";
+// }
+
+
+#include<iostream>
+#include "clsMainScreen.h"
+
 int main()
 {
-    ShowTotalBalances();
+    clsMainScreen::ShowMainMenu();
 }

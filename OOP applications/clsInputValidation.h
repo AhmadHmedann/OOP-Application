@@ -25,8 +25,8 @@ public:
         int num;
         while (!(cin >> num))
         {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.clear(); //reset the Error flag  
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); //That removes bad input from the buffer.
             cout << ErrorMessage;
         }
         return num;
