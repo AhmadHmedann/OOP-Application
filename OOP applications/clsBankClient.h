@@ -141,20 +141,21 @@ public:
     {
         return _AccountBalance;
     }
-    void Print()
-    {
-        std::cout << "\nClient Card:";
-        std::cout << "\n_______________________________________";
-        std::cout << "\nFirstName   : " << FirstName();
-        std::cout << "\nLastName    : " << LastName();
-        std::cout << "\nFull Name   : " << FullName();
-        std::cout << "\nEmail       : " << Email();
-        std::cout << "\nPhone       : " << Phone();
-        std::cout << "\nAcc. Number : " << _AccountNumber;
-        std::cout << "\nPinCode     : " << _PinCode;
-        std::cout << "\nBalance     : " << _AccountBalance;
-        std::cout << "\n_______________________________________\n";
-    }
+    //No UI inside My object
+    // void Print()
+    // {
+    //     std::cout << "\nClient Card:";
+    //     std::cout << "\n_______________________________________";
+    //     std::cout << "\nFirstName   : " << FirstName();
+    //     std::cout << "\nLastName    : " << LastName();
+    //     std::cout << "\nFull Name   : " << FullName();
+    //     std::cout << "\nEmail       : " << Email();
+    //     std::cout << "\nPhone       : " << Phone();
+    //     std::cout << "\nAcc. Number : " << _AccountNumber;
+    //     std::cout << "\nPinCode     : " << _PinCode;
+    //     std::cout << "\nBalance     : " << _AccountBalance;
+    //     std::cout << "\n_______________________________________\n";
+    // }
 
     static clsBankClient Find(std::string AccountNumber)
     {

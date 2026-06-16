@@ -5,6 +5,7 @@
 #include "clsScreen.h"
 #include "clsInputValidation.h"
 #include "clsClientListScreen.h"
+#include "clsAddNewClientScreen.h"
 class clsMainScreen : protected clsScreen
 {
 private:
@@ -25,7 +26,7 @@ private:
     }
     static void _ShowAddNewClientScreen()
     {
-        std::cout << "\n Show Add New Client Screen , Coming soon\n";
+        clsAddNewClientScreen::AddNewClientScreen();
     }
     static void _ShowDeleteClientScreen()
     {
@@ -150,7 +151,7 @@ public:
         _DrawScreenHeader("\t\tMain Screen");
 
         std::cout << std::setw(37) << std::left << "" << "===========================================\n";
-        std::cout << std::setw(37) << std::left << "" << "\t\t\tMain Menue\n";
+        std::cout << std::setw(37) << std::left << "" << "\t\t\tMain Menu\n";
         std::cout << std::setw(37) << std::left << "" << "===========================================\n";
         std::cout << std::setw(37) << std::left << "" << "\t[1] Show Client List.\n";
         std::cout << std::setw(37) << std::left << "" << "\t[2] Add New Client.\n";

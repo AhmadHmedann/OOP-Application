@@ -1,24 +1,5 @@
-// #include <iostream>
-// #include <iomanip>
-// using namespace std;
-// #include "clsBankClient.h"
-// #include "clsInputValidation.h"
 
-// void ReadClientInfo(clsBankClient &Client)
-// {
-//     std::cout << "\nEnter FirstName: ";
-//     Client.SetFirstName(clsInputValidation::ReadString());
-//     std::cout << "\nEnter LastName; ";
-//     Client.SetLastName(clsInputValidation::ReadString());
-//     std::cout << "\nEnter Email: ";
-//     Client.SetEmail(clsInputValidation::ReadString());
-//     std::cout << "\nEnter Phone: ";
-//     Client.SetPhone(clsInputValidation::ReadString());
-//     std::cout << "\nEnter PinCode: ";
-//     Client.SetPinCode(clsInputValidation::ReadString());
-//     std::cout << "\nEnter Account Balance; ";
-//     Client.SetAccountBalance(clsInputValidation::ReadFloatNumber());
-// }
+
 // void UpdateClient()
 // {
 //     std::cout << "\nPlease Enter Account Number: ";
