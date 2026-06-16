@@ -6,6 +6,7 @@
 #include "clsInputValidation.h"
 #include "clsClientListScreen.h"
 #include "clsAddNewClientScreen.h"
+#include "clsDeleteClientScreen.h"
 class clsMainScreen : protected clsScreen
 {
 private:
@@ -30,7 +31,7 @@ private:
     }
     static void _ShowDeleteClientScreen()
     {
-        std::cout << "\n Show Delete Client screen, Coming soon\n";
+       clsDeleteClientScreen::ShowDeleteClientScreen();
     }
     static void _ShowUpdateClientScreen()
     {
