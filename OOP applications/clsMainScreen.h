@@ -4,6 +4,7 @@
 #include <limits>
 #include "clsScreen.h"
 #include "clsInputValidation.h"
+#include "clsClientListScreen.h"
 class clsMainScreen : protected clsScreen
 {
 private:
@@ -20,7 +21,7 @@ private:
     };
     static void _ShowAllClientScreen()
     {
-        std::cout << "\n Show List Client, Coming soon\n";
+       clsClientListScreen::ShowClientList();
     }
     static void _ShowAddNewClientScreen()
     {
