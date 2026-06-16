@@ -8,6 +8,7 @@
 #include "clsAddNewClientScreen.h"
 #include "clsDeleteClientScreen.h"
 #include "clsUpdateClientScreen.h"
+#include "clsFindClientScreen.h"
 class clsMainScreen : protected clsScreen
 {
 private:
@@ -24,7 +25,7 @@ private:
     };
     static void _ShowAllClientScreen()
     {
-       clsClientListScreen::ShowClientList();
+        clsClientListScreen::ShowClientList();
     }
     static void _ShowAddNewClientScreen()
     {
@@ -32,17 +33,16 @@ private:
     }
     static void _ShowDeleteClientScreen()
     {
-       clsDeleteClientScreen::ShowDeleteClientScreen();
+        clsDeleteClientScreen::ShowDeleteClientScreen();
     }
     static void _ShowUpdateClientScreen()
     {
 
-      clsUpdateClientScreen::ShowUpdateClientScreen();
+        clsUpdateClientScreen::ShowUpdateClientScreen();
     }
     static void _ShowFindClientScreen()
     {
-
-        std::cout << "\n Show Find Client screen, Coming soon...\n";
+        clsFindClientScreen::ShowFindClientScreen();
     }
     static void _ShowTransactioMenu()
     {
@@ -76,7 +76,6 @@ private:
         std::cout << std::setw(37) << std::left << "" << "\n\tPress any key to go back to Main Menu...\n";
         std::cin.get();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        
     }
     static void _PerformMainMenuOption(enMainMenuOptions option)
     {
@@ -148,24 +147,25 @@ public:
         // Each time the user goes back to the main menu, a new function call is added to the call stack.
         // This is not a good design for menu navigation. A loop should be used instead.
         enMainMenuOptions Option;
-        do{
-        _ClearScreen();
-        _DrawScreenHeader("\t\tMain Screen");
+        do
+        {
+            _ClearScreen();
+            _DrawScreenHeader("\t\tMain Screen");
 
-        std::cout << std::setw(37) << std::left << "" << "===========================================\n";
-        std::cout << std::setw(37) << std::left << "" << "\t\t\tMain Menu\n";
-        std::cout << std::setw(37) << std::left << "" << "===========================================\n";
-        std::cout << std::setw(37) << std::left << "" << "\t[1] Show Client List.\n";
-        std::cout << std::setw(37) << std::left << "" << "\t[2] Add New Client.\n";
-        std::cout << std::setw(37) << std::left << "" << "\t[3] Delete Client.\n";
-        std::cout << std::setw(37) << std::left << "" << "\t[4] Update Client Info.\n";
-        std::cout << std::setw(37) << std::left << "" << "\t[5] Find Client.\n";
-        std::cout << std::setw(37) << std::left << "" << "\t[6] Transactions.\n";
-        std::cout << std::setw(37) << std::left << "" << "\t[7] Manage Users.\n";
-        std::cout << std::setw(37) << std::left << "" << "\t[8] Logout.\n";
-        std::cout << std::setw(37) << std::left << "" << "===========================================\n";
-        Option = (enMainMenuOptions)_ReadMainMenuOption();
+            std::cout << std::setw(37) << std::left << "" << "===========================================\n";
+            std::cout << std::setw(37) << std::left << "" << "\t\t\tMain Menu\n";
+            std::cout << std::setw(37) << std::left << "" << "===========================================\n";
+            std::cout << std::setw(37) << std::left << "" << "\t[1] Show Client List.\n";
+            std::cout << std::setw(37) << std::left << "" << "\t[2] Add New Client.\n";
+            std::cout << std::setw(37) << std::left << "" << "\t[3] Delete Client.\n";
+            std::cout << std::setw(37) << std::left << "" << "\t[4] Update Client Info.\n";
+            std::cout << std::setw(37) << std::left << "" << "\t[5] Find Client.\n";
+            std::cout << std::setw(37) << std::left << "" << "\t[6] Transactions.\n";
+            std::cout << std::setw(37) << std::left << "" << "\t[7] Manage Users.\n";
+            std::cout << std::setw(37) << std::left << "" << "\t[8] Logout.\n";
+            std::cout << std::setw(37) << std::left << "" << "===========================================\n";
+            Option = (enMainMenuOptions)_ReadMainMenuOption();
             _PerformMainMenuOption(Option);
-        }while(Option != enMainMenuOptions::eExit);
+        } while (Option != enMainMenuOptions::eExit);
     }
 };
