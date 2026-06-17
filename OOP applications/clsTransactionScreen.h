@@ -4,7 +4,9 @@
 #include <limits>
 #include "clsScreen.h"
 #include "clsInputValidation.h"
-
+#include "clsDepositScreen.h"
+#include "clsWithdrawScreen.h"
+#include "clsTotalBalanceScreen.h"
 
 class clsTransactionScreen : protected clsScreen
 {
@@ -24,17 +26,17 @@ class clsTransactionScreen : protected clsScreen
 
     static void _ShowDepositScreen()
     {
-        std::cout << "\n Deposit Screen will be here.\n";
+        clsDepositScreen::ShowDepositScreen();
     }
 
     static void _ShowWithdrawScreen()
     {
-        std::cout << "\n Withdraw Screen will be here.\n";
+        clsWithdrawScreen::ShowWithdrawScreen();
     }
 
     static void _ShowTotalBalancesScreen()
     {
-        std::cout << "\n Balances Screen will be here.\n";
+        clsTotalBalanceScreen::ShowTotalBalances();
     }
     static void _GoBackToTransactionsMenu()
     {
@@ -42,7 +44,6 @@ class clsTransactionScreen : protected clsScreen
         std::cout << std::setw(37) << std::left << "" << "\n\tPress any key to go back to Transaction Menu...\n";
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cin.get();
-        
     }
     static void _ClearScreen()
     {

@@ -103,7 +103,7 @@ private:
         {
             MyFile << Line << std::endl;
         }
-        
+
         MyFile.close();
     }
 
@@ -141,21 +141,21 @@ public:
     {
         return _AccountBalance;
     }
-    //No UI inside My object
-    // void Print()
-    // {
-    //     std::cout << "\nClient Card:";
-    //     std::cout << "\n_______________________________________";
-    //     std::cout << "\nFirstName   : " << FirstName();
-    //     std::cout << "\nLastName    : " << LastName();
-    //     std::cout << "\nFull Name   : " << FullName();
-    //     std::cout << "\nEmail       : " << Email();
-    //     std::cout << "\nPhone       : " << Phone();
-    //     std::cout << "\nAcc. Number : " << _AccountNumber;
-    //     std::cout << "\nPinCode     : " << _PinCode;
-    //     std::cout << "\nBalance     : " << _AccountBalance;
-    //     std::cout << "\n_______________________________________\n";
-    // }
+    // No UI inside My object
+    //  void Print()
+    //  {
+    //      std::cout << "\nClient Card:";
+    //      std::cout << "\n_______________________________________";
+    //      std::cout << "\nFirstName   : " << FirstName();
+    //      std::cout << "\nLastName    : " << LastName();
+    //      std::cout << "\nFull Name   : " << FullName();
+    //      std::cout << "\nEmail       : " << Email();
+    //      std::cout << "\nPhone       : " << Phone();
+    //      std::cout << "\nAcc. Number : " << _AccountNumber;
+    //      std::cout << "\nPinCode     : " << _PinCode;
+    //      std::cout << "\nBalance     : " << _AccountBalance;
+    //      std::cout << "\n_______________________________________\n";
+    //  }
 
     static clsBankClient Find(std::string AccountNumber)
     {
@@ -258,10 +258,10 @@ public:
     bool Delete()
     {
         std::vector<clsBankClient> vClients = _LoadClientsDataFromFile();
-        
-        for (clsBankClient &C: vClients)
+
+        for (clsBankClient &C : vClients)
         {
-            if(C.AccountNumber() == _AccountNumber)
+            if (C.AccountNumber() == _AccountNumber)
             {
                 C._MarkToDelete = true;
                 break;
@@ -269,8 +269,8 @@ public:
         }
         _SaveClientsDataToFile(vClients);
         *this = _GetEmptyClientObject();
-        return true ;
-    }   
+        return true;
+    }
     static std::vector<clsBankClient> GetClientsList()
     {
         return _LoadClientsDataFromFile();
@@ -289,5 +289,20 @@ public:
 
         return TotalBalances;
     }
-  
+
+    void Deposit(double amount)
+    {
+        _AccountBalance += amount;
+        Save();
+    }
+    bool Withdraw(double amount)
+    {
+        if(amount>_AccountBalance)
+        {
+            return false;
+        }
+        _AccountBalance -= amount;
+        Save();
+        return true;
+    }
 };

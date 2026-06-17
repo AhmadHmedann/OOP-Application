@@ -55,7 +55,7 @@ public:
         _PrintClient(Client);
 
         char Confirm;
-        std::cout << "Are you sure you want to Delete this client? Y/N? ";
+        std::cout << "Are you sure you want to update this client? Y/N? ";
         std::cin >> Confirm;
         if (std::tolower(Confirm) == 'y')
         {
