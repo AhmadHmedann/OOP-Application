@@ -16,12 +16,12 @@ private:
     std::string _UserName;
     std::string _Password;
     int _Permissions;
-    bool MarkToDelete = false;
+    bool _MarkToDelete = false;
     enum enMode
     {
-        EmptyMode = 1,
-        UpdateMode = 2,
-        AddNewUser = 3,
+        EmptyMode = 0,
+        UpdateMode = 1,
+        AddNewUser = 2,
     };
     enMode _Mode;
 
@@ -40,11 +40,11 @@ private:
         return clsUser(enMode::UpdateMode, vString[0], vString[1], vString[2], vString[3], vString[4], vString[5], std::stoi(vString[6]));
     }
 
-    static std::string _CovertUserObjectToLine(clsUser User, std::string Separator = "#//#")
+    static std::string _ConvertUserObjectToLine(clsUser User, std::string Separator = "#//#")
     {
-        return User.FirstName() + Separator + User.LastName() + Separator + User.Email() + Separator + User.Phone() + Separator + User.UserName() + Separator + User.Password() + Separator + to_string(User.Permissions());
+        return User.FirstName() + Separator + User.LastName() + Separator + User.Email() + Separator + User.Phone() + Separator + User.UserName() + Separator + User.Password() + Separator + std::to_string(User.Permissions());
     }
-    static std::vector<clsUser> _LoadUserFromFile()
+    static std::vector<clsUser> _LoadUsersDataFromFile()
     {
         std::vector<clsUser> vUsers;
         std::fstream Myfile;
@@ -60,7 +60,7 @@ private:
         }
         return vUsers;
     }
-    static void _SaveUsersToFile(std::vector<clsUser> &vUsers)
+    static void _SaveUsersDataToFile(std::vector<clsUser> &vUsers)
     {
         std::fstream Myfile;
         Myfile.open("Users.txt", std::ios::out);
@@ -68,17 +68,20 @@ private:
         {
             for (const clsUser &User : vUsers)
             {
-                Myfile << _CovertUserObjectToLine(User) << std::endl;
+                if (!User._MarkToDelete)
+                {
+                    Myfile << _ConvertUserObjectToLine(User) << std::endl;
+                }
             }
             Myfile.close();
         }
     }
     void _AddNew()
     {
-        AddDataLineToFile(_CovertUserObjectToLine(*this));
+        _AddDataLineToFile(_ConvertUserObjectToLine(*this));
     }
 
-    void AddDataLineToFile(std::string Line)
+    void _AddDataLineToFile(std::string Line)
     {
         std::fstream MyFile;
         MyFile.open("Users.txt", std::ios::out | std::ios::app);
@@ -90,7 +93,7 @@ private:
     }
     void _Update()
     {
-        std::vector<clsUser> vUsers = _LoadUserFromFile();
+        std::vector<clsUser> vUsers = _LoadUsersDataFromFile();
         for (clsUser &User : vUsers)
         {
             if (User.UserName() == _UserName)
@@ -98,13 +101,8 @@ private:
                 User = *this;
                 break;
             }
-            _SaveUsersToFile(vUsers);
         }
-    }
-
-    bool _IsEmpty()
-    {
-        return (_Mode == enMode::EmptyMode);
+        _SaveUsersDataToFile(vUsers);
     }
 
 public:
@@ -116,6 +114,15 @@ public:
         _Password = Password;
         _Permissions = Permissions;
     };
+    bool IsEmpty()
+    {
+        return (_Mode == enMode::EmptyMode);
+    }
+
+    bool MarkedForDeleted()
+    {
+        return _MarkToDelete;
+    }
     void SetUserName(std::string UserName)
     {
         _UserName = UserName;
@@ -151,13 +158,56 @@ public:
 
     static clsUser Find(std::string UserName)
     {
-      
+        std::fstream MyFile;
+        MyFile.open("Users.txt", std::ios::in);
+        if (MyFile.is_open())
+        {
+            std::string line;
+            while (getline(MyFile, line))
+            {
+                clsUser user = _ConvertLineToUserObject(line);
+                if (user.UserName() == UserName)
+                {
+                    MyFile.close();
+                    return user;
+                }
+            }
+            MyFile.close();
+        }
+
+        return GetEmptyUser();
+    }
+
+    static clsUser Find(std::string UserName, std::string Password)
+    {
+        std::fstream MyFile;
+        MyFile.open("Users.txt", std::ios::in);
+        if (MyFile.is_open())
+        {
+            std::string line;
+            while (getline(MyFile, line))
+            {
+                clsUser user = _ConvertLineToUserObject(line);
+                if (user.UserName() == UserName && user.Password() == Password)
+                {
+                    MyFile.close();
+                    return user;
+                }
+            }
+        }
+        MyFile.close();
+        return GetEmptyUser();
+    }
+    static bool IsUserExists(std::string UserName)
+    {
+        clsUser User = Find(UserName);
+        return (!User.IsEmpty());
     }
     enum enSaveResults
     {
-        svFailedEmptyObject = 1,
-        svSucceeded = 2,
-        svErrorUserIsNorExists = 3,
+        svFailedEmptyObject = 0,
+        svSucceeded = 1,
+        svErrorUserIsExists = 2,
     };
     enSaveResults Save()
     {
@@ -165,21 +215,55 @@ public:
         {
         case enMode::EmptyMode:
             return enSaveResults::svFailedEmptyObject;
-            break;
+
         case enMode::UpdateMode:
         {
             _Update();
-            break;
+            return enSaveResults::svSucceeded;
         }
         case enMode::AddNewUser:
         {
-            if (_IsUse)
+            if (IsUserExists(_UserName))
+            {
+                return enSaveResults::svErrorUserIsExists;
+            }
+            else
+            {
                 _AddNew();
-            _Mode = enMode::UpdateMode;
-            break;
+                _Mode = enMode::UpdateMode;
+                return enSaveResults::svSucceeded;
+            }
         }
         default:
-            break;
+            enSaveResults::svFailedEmptyObject;
         }
+    }
+    bool Delete()
+    {
+        std::vector<clsUser> vUser = _LoadUsersDataFromFile();
+        bool IsFound = false;
+        for (clsUser &User : vUser)
+        {
+            if (User.UserName() == _UserName)
+            {
+                User._MarkToDelete = true;
+                IsFound = true;
+                break;
+            }
+        }
+        if (!IsFound)
+            return false;
+
+        _SaveUsersDataToFile(vUser);
+        *this = GetEmptyUser();
+        return true;
+    }
+    static clsUser GetAddNewUserObject(std::string UserName)
+    {
+        return clsUser(enMode::AddNewUser, "", "", "", "", UserName, "", 0);
+    }
+    static std::vector<clsUser> GetUserList()
+    {
+        return _LoadUsersDataFromFile();
     }
 };
