@@ -6,6 +6,7 @@
 #include "clsInputValidation.h"
 #include "clsUsersListScreen.h"
 #include "clsAddNewUserScreen.h"
+#include  "clsDeleteUserScreen.h"
 
 class clsManageUserMenu : protected clsScreen
 {
@@ -47,7 +48,7 @@ private:
 
     static void _ShowDeleteUserScreen()
     {
-        std::cout << "\nDelete User Screen Will Be Here.\n";
+      clsDeleteUserScreen::ShowDeleteUserScreen();
     }
 
     static void _ShowUpdateUserScreen()
