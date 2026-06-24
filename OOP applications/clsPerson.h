@@ -22,7 +22,7 @@ public:
     {
         _FirstName = FirstName;
     }
-    std::string FirstName()
+    std::string FirstName() const
     {
         return _FirstName;
     }
@@ -30,7 +30,7 @@ public:
     {
         _LastName = LastName;
     }
-    std::string LastName()
+    std::string LastName() const
     {
         return _LastName;
     }
@@ -38,7 +38,7 @@ public:
     {
         _Email = Email;
     }
-    std::string Email()
+    std::string Email() const
     {
         return _Email;
     }
@@ -46,11 +46,11 @@ public:
     {
         _Phone = Phone;
     }
-    std::string Phone()
+    std::string Phone() const
     {
         return _Phone;
     }
-    std::string FullName()
+    std::string FullName() const
     {
         return _FirstName + " " + _LastName;
     }

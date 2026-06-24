@@ -9,7 +9,7 @@
 #include "clsInputValidation.h"
 #include "clsString.h"
 
-class clsUser : protected clsPerson
+class clsUser : public clsPerson
 {
 
 private:
@@ -119,7 +119,7 @@ public:
         return (_Mode == enMode::EmptyMode);
     }
 
-    bool MarkedForDeleted()
+    bool MarkedForDeleted() const
     {
         return _MarkToDelete;
     }
@@ -127,7 +127,7 @@ public:
     {
         _UserName = UserName;
     }
-    std::string UserName()
+    std::string UserName() const
     {
         return _UserName;
     }
@@ -135,7 +135,7 @@ public:
     {
         _Password = Password;
     }
-    std::string Password()
+    std::string Password() const
     {
         return _Password;
     }
@@ -143,7 +143,7 @@ public:
     {
         _Permissions = Permissions;
     }
-    int Permissions()
+    int Permissions()  const
     {
         return _Permissions;
     }
@@ -151,7 +151,7 @@ public:
     {
         _Mode = Mode;
     }
-    enMode Mode()
+    enMode Mode() const
     {
         return _Mode;
     }
@@ -262,7 +262,7 @@ public:
     {
         return clsUser(enMode::AddNewUser, "", "", "", "", UserName, "", 0);
     }
-    static std::vector<clsUser> GetUserList()
+    static std::vector<clsUser> GetUsersList()
     {
         return _LoadUsersDataFromFile();
     }

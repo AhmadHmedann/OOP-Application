@@ -4,6 +4,7 @@
 #include <limits>
 #include "clsScreen.h"
 #include "clsInputValidation.h"
+#include "clsUsersListScreen.h"
 
 class clsManageUserMenu : protected clsScreen
 {
@@ -35,7 +36,7 @@ private:
 
     static void _ShowListUsersScreen()
     {
-        std::cout << "\nList Users Screen Will Be Here.\n";
+        clsUsersListScreen::ShowUsersList();
     }
 
     static void _ShowAddNewUserScreen()
