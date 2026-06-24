@@ -124,6 +124,8 @@ public:
         std::cin >> Confirm;
         if (std::tolower(Confirm) == 'y')
         {
+            cout << "\n\nUpdate User Info:";
+            cout << "\n____________________\n";
             _ReadUserInfo(User);
             clsUser::enSaveResults SaveResult = User.Save();
             switch (SaveResult)
