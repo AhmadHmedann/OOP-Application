@@ -235,7 +235,7 @@ public:
             }
         }
         default:
-            enSaveResults::svFailedEmptyObject;
+           return enSaveResults::svFailedEmptyObject;
         }
     }
     bool Delete()

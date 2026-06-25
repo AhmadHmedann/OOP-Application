@@ -121,7 +121,7 @@ public:
     {
         return _Mode == enMode::EmptyMode;
     }
-    std::string AccountNumber()
+    std::string AccountNumber() const
     {
         return _AccountNumber;
     }
@@ -129,7 +129,7 @@ public:
     {
         _PinCode = PinCode;
     }
-    std::string PinCode()
+    std::string PinCode() const
     {
         return _PinCode;
     }
@@ -137,7 +137,7 @@ public:
     {
         _AccountBalance = AccountBalance;
     }
-    float AccountBalance()
+    float AccountBalance() const
     {
         return _AccountBalance;
     }

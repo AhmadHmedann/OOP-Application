@@ -7,37 +7,6 @@
 class clsAddNewUserScreen : protected clsScreen
 {
 private:
-    static void _ReadUserInfo(clsUser &User)
-    {
-        // clsUser(enMode Mode, std::string FirstName, std::string LastName, std::string Email, std::string Phone, std::string UserName, std::string Password, int Permissions)
-        std::cout << "\nEnter FirstName: ";
-        User.SetFirstName(clsInputValidation::ReadString());
-        std::cout << "\nEnter LastName; ";
-        User.SetLastName(clsInputValidation::ReadString());
-        std::cout << "\nEnter Email: ";
-        User.SetEmail(clsInputValidation::ReadString());
-        std::cout << "\nEnter Phone: ";
-        User.SetPhone(clsInputValidation::ReadString());
-        std::cout << "\nEnter Password: ";
-        User.SetPassword(clsInputValidation::ReadString());
-        std::cout << "\nEnter Permissions: ";
-        User.SetPermissions(_ReadPermissionsToSet());
-    }
-
-    static void _PrintUser(const clsUser &User)
-    {
-        std::cout << "\nUser Card:";
-        std::cout << "\n___________________";
-        std::cout << "\nFirstName   : " << User.FirstName();
-        std::cout << "\nLastName    : " << User.LastName();
-        std::cout << "\nFull Name   : " << User.FullName();
-        std::cout << "\nEmail       : " << User.Email();
-        std::cout << "\nPhone       : " << User.Phone();
-        std::cout << "\nUser Name   : " << User.UserName();
-        std::cout << "\nPassword    : " << User.Password();
-        std::cout << "\nPermissions : " << User.Permissions();
-        std::cout << "\n___________________\n";
-    }
     static int _ReadPermissionsToSet()
     {
         int Permissions = 0;
@@ -100,6 +69,37 @@ private:
         }
 
         return Permissions;
+    }
+    static void _ReadUserInfo(clsUser &User)
+    {
+        // clsUser(enMode Mode, std::string FirstName, std::string LastName, std::string Email, std::string Phone, std::string UserName, std::string Password, int Permissions)
+        std::cout << "\nEnter FirstName: ";
+        User.SetFirstName(clsInputValidation::ReadString());
+        std::cout << "\nEnter LastName; ";
+        User.SetLastName(clsInputValidation::ReadString());
+        std::cout << "\nEnter Email: ";
+        User.SetEmail(clsInputValidation::ReadString());
+        std::cout << "\nEnter Phone: ";
+        User.SetPhone(clsInputValidation::ReadString());
+        std::cout << "\nEnter Password: ";
+        User.SetPassword(clsInputValidation::ReadString());
+        std::cout << "\nEnter Permissions: ";
+        User.SetPermissions(_ReadPermissionsToSet());
+    }
+
+    static void _PrintUser(const clsUser &User)
+    {
+        std::cout << "\nUser Card:";
+        std::cout << "\n___________________";
+        std::cout << "\nFirstName   : " << User.FirstName();
+        std::cout << "\nLastName    : " << User.LastName();
+        std::cout << "\nFull Name   : " << User.FullName();
+        std::cout << "\nEmail       : " << User.Email();
+        std::cout << "\nPhone       : " << User.Phone();
+        std::cout << "\nUser Name   : " << User.UserName();
+        std::cout << "\nPassword    : " << User.Password();
+        std::cout << "\nPermissions : " << User.Permissions();
+        std::cout << "\n___________________\n";
     }
 
 public:

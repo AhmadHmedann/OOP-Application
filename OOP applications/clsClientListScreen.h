@@ -7,7 +7,7 @@
 class clsClientListScreen : protected clsScreen
 {
 private:
-    static void PrintClientRecordLine(clsBankClient Client)
+    static void PrintClientRecordLine(const clsBankClient &Client)
     {
         std::cout << std::setw(8) << std::left << "" << "| " << std::setw(15) << std::left << Client.AccountNumber()
                   << "| " << std::setw(20) << std::left << Client.FullName()

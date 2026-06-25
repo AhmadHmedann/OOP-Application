@@ -8,7 +8,7 @@
 
 class clsTotalBalanceScreen : protected clsScreen
 {
-    static void _PrintClientRecordBalanceLine(clsBankClient Client)
+    static void _PrintClientRecordBalanceLine(const clsBankClient &Client)
     {
 
         std::cout << "| " << std::setw(15) << std::left << Client.AccountNumber();

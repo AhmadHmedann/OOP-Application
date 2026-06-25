@@ -7,7 +7,7 @@
 
 class clsWithdrawScreen : protected clsScreen
 {
-    static void _PrintClient(clsBankClient Client)
+    static void _PrintClient(const clsBankClient& Client)
     {
 
         std::cout << "\nClient Card:";
@@ -54,7 +54,7 @@ public:
             }
             else
             {
-                std::cout<<"\nCan not withdraw, Insuffecient Balance!\n";
+                std::cout<<"\nCan not withdraw, insufficient Balance!\n";
                 std::cout<<"\nAmount to withdraw is: "<<Amount;
                 std::cout<<"\nYour Balance is: "<<Client.AccountBalance();
             }
