@@ -84,6 +84,11 @@ class clsTransactionScreen : protected clsScreen
 public:
     static void ShowTransactionsMenu()
     {
+        if (!CheckAccessRight(clsUser::enPermissions::pTransaction))
+        {
+            _GoBackToMainMenu();
+            return;
+        }
         enTransactionsMenuOptions Option;
         do
         {

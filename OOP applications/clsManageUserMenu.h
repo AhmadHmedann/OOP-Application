@@ -122,6 +122,11 @@ private:
 public:
     static void ShowManageUsersMenu()
     {
+        if(!CheckAccessRight(clsUser::enPermissions::pManageUserMenu))
+        {
+            _GoBackToMainMenu();
+            return;
+        }
         enManageUsersMenuOptions Option;
         do
         {

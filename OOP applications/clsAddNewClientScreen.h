@@ -42,6 +42,10 @@ private:
 public:
     static void AddNewClientScreen()
     {
+        if (!CheckAccessRight(clsUser::enPermissions::pAddNewClient))
+        {
+            return;
+        }
         _DrawScreenHeader("\t Add New client Screen");
         std::cout << "Please Enter Account Number: ";
         std::string AccountNumber = clsInputValidation::ReadString();

@@ -26,6 +26,10 @@ private:
 public:
     static void ShowDeleteClientScreen()
     {
+        if (!CheckAccessRight(clsUser::enPermissions::pDeleteClient))
+        {
+            return;
+        }
         _DrawScreenHeader("\tDelete Client Screen");
         std::cout << "\nPlease Enter an Account Number: ";
         std::string AccountNumber = clsInputValidation::ReadString();

@@ -277,4 +277,11 @@ public:
         pTransaction = 32,
         pManageUserMenu = 64
     };
+    bool CheckAccessPermission(enPermissions Permissions)
+    {
+        if(this->Permissions() == enPermissions::pAll)
+        return true;
+
+        return ((this->Permissions() & Permissions )== Permissions);
+    }    
 };

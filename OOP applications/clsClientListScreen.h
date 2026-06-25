@@ -20,6 +20,10 @@ private:
 public:
     static void ShowClientList()
     {
+        if(!CheckAccessRight(clsUser::enPermissions::pListClient))
+        {
+            return;
+        }
         std::vector<clsBankClient> vClients = clsBankClient::GetClientsList();
         std::string Title = "\tClient List Screen";
         std::string SubTitle = "\t   (" + to_string(vClients.size()) + ") Client (s).\n";
