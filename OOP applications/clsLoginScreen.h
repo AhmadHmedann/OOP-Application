@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include "clsScreen.h"
 #include "Global.h"
