@@ -4,6 +4,7 @@
 #include <iostream>
 #include "clsUser.h"
 #include "Global.h"
+#include "clsDate.h"
 class clsScreen
 {
 protected:
@@ -16,10 +17,16 @@ protected:
             std::cout << "\n\t\t\t\t\t  " << SubTitle;
         }
         std::cout << "\n\t\t\t\t\t______________________________________\n\n";
+        std::cout << "\n\t\t\t\t\tUser: " << CurrentUser.UserName() << "\n";
+        clsDate CurrentDate = clsDate::GetSystemDate();
+        std::cout << "\t\t\t\t\tDate: ";
+        CurrentDate.Print();
+        cout<<"\n\n";
+        
     }
     static bool CheckAccessRight(clsUser::enPermissions Permissions)
     {
-        if(!CurrentUser.CheckAccessPermission(Permissions))
+        if (!CurrentUser.CheckAccessPermission(Permissions))
         {
             {
                 std::cout << "\t\t\t\t\t______________________________________";
@@ -27,8 +34,9 @@ protected:
                 std::cout << "\n\t\t\t\t\t______________________________________\n\n";
                 return false;
             }
-        }else
-        return true;
+        }
+        else
+            return true;
     }
     static void _GoBackToMainMenu()
     {
