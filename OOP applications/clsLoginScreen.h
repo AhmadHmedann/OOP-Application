@@ -36,6 +36,7 @@ private:
             LoginFailed = CurrentUser.IsEmpty();
 
         } while (LoginFailed);
+        CurrentUser.RegisterLogin();
         clsMainScreen::ShowMainMenu();
         return true;
     }

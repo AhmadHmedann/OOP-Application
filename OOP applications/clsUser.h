@@ -105,6 +105,10 @@ private:
         _SaveUsersDataToFile(vUsers);
     }
 
+    std::string _PrepareLoginRecord(std::string Separator = "#//#")
+    {
+        return clsDate::GetSystemDateTimeString() + Separator + UserName() + Separator + Password() + Separator + std::to_string(Permissions());
+    }
 public:
     clsUser(enMode Mode, std::string FirstName, std::string LastName, std::string Email, std::string Phone, std::string UserName, std::string Password, int Permissions)
         : clsPerson(FirstName, LastName, Email, Phone)
@@ -284,4 +288,19 @@ public:
 
         return ((this->Permissions() & Permissions )== Permissions);
     }    
+    void RegisterLogin()
+    {
+        std::string DataLine = _PrepareLoginRecord();
+
+        std::fstream MyFile;
+        MyFile.open("LoginRegister.txt", std::ios::out | std::ios::app);
+
+        if (MyFile.is_open())
+        {
+
+            MyFile << DataLine << std::endl;
+
+            MyFile.close();
+        }
+    }
 };
