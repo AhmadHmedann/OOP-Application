@@ -70,7 +70,7 @@ private:
     }
     static int _ReadMainMenuOption()
     {
-        std::cout << std::setw(37) << std::left << "" << "Choose what do you want to do [1 to 8]: ";
+        std::cout << std::setw(37) << std::left << "" << "Choose what do you want to do [1 to 9]: ";
         int choice = clsInputValidation::ReadIntNumberBetween(1, 9, "Enter Number between 1 to 9? ");
 
         return choice;

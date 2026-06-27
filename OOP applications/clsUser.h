@@ -13,7 +13,7 @@ class clsUser : public clsPerson
 {
 
 private:
-  
+
     std::string _UserName;
     std::string _Password;
     int _Permissions;
@@ -281,7 +281,8 @@ public:
         pUpdateClient = 8,
         pFindClient = 16,
         pTransaction = 32,
-        pManageUserMenu = 64
+        pManageUserMenu = 64,
+        pShowLoginRegister = 128,
     };
     bool CheckAccessPermission(enPermissions Permissions)
     {

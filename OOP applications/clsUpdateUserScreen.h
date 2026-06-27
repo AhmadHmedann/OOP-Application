@@ -84,7 +84,12 @@ private:
         {
             Permissions += clsUser::enPermissions::pManageUserMenu;
         }
-
+        std::cout << "\nShow Login Register Screen? y/n? ";
+        std::cin >> Answer;
+        if (Answer == 'y' || Answer == 'Y')
+        {
+            Permissions += clsUser::enPermissions::pShowLoginRegister;
+        }
         return Permissions;
     }
 
