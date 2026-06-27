@@ -305,4 +305,14 @@ public:
         Save();
         return true;
     }
+    bool Transfer(const double &Amount,clsBankClient &DestinationClient)
+    {
+        if(Amount>_AccountBalance)
+        {
+            return false;
+        }
+        this->Withdraw(Amount);
+        DestinationClient.Deposit(Amount);
+        return true;
+    }
 };

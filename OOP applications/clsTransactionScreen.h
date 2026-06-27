@@ -7,6 +7,7 @@
 #include "clsDepositScreen.h"
 #include "clsWithdrawScreen.h"
 #include "clsTotalBalanceScreen.h"
+#include "clsTransferScreen.h"
 
 class clsTransactionScreen : protected clsScreen
 {
@@ -15,12 +16,13 @@ class clsTransactionScreen : protected clsScreen
         eDeposit = 1,
         eWithdraw = 2,
         eShowTotalBalance = 3,
-        eShowMainMenu = 4
+        eTransfer = 4,
+        eShowMainMenu = 5
     };
     static int _ReadTransactionMenuOption()
     {
-        std::cout << std::setw(36) << std::left << "" << "Choose what  you want to do [1 to 4]: ";
-        int choose = clsInputValidation::ReadIntNumberBetween(1, 4, "Enter Number Between 1 to 4? ");
+        std::cout << std::setw(36) << std::left << "" << "Choose what  you want to do [1 to 5]: ";
+        int choose = clsInputValidation::ReadIntNumberBetween(1, 5, "Enter Number Between 1 to 5? ");
         return choose;
     }
 
@@ -37,6 +39,10 @@ class clsTransactionScreen : protected clsScreen
     static void _ShowTotalBalancesScreen()
     {
         clsTotalBalanceScreen::ShowTotalBalances();
+    }
+    static void _ShowTransferScreen()
+    {
+        clsTransferScreen::ShowTransferScreen();
     }
     static void _GoBackToTransactionsMenu()
     {
@@ -74,6 +80,13 @@ class clsTransactionScreen : protected clsScreen
             _GoBackToTransactionsMenu();
             break;
         }
+        case enTransactionsMenuOptions::eTransfer:
+        {
+            _ClearScreen();
+            _ShowTransferScreen();
+            _GoBackToMainMenu();
+            break;
+        }
         case enTransactionsMenuOptions::eShowMainMenu:
         {
             break;
@@ -101,7 +114,8 @@ public:
             std::cout << std::setw(37) << std::left << "" << "\t[1] Deposit.\n";
             std::cout << std::setw(37) << std::left << "" << "\t[2] Withdraw.\n";
             std::cout << std::setw(37) << std::left << "" << "\t[3] Total Balances.\n";
-            std::cout << std::setw(37) << std::left << "" << "\t[4] Main Menu.\n";
+            std::cout << std::setw(37) << std::left << "" << "\t[4] Transfer.\n";
+            std::cout << std::setw(37) << std::left << "" << "\t[5] Main Menu.\n";
             std::cout << std::setw(37) << std::left << "" << "===========================================\n";
 
             Option = (enTransactionsMenuOptions)_ReadTransactionMenuOption();
