@@ -12,6 +12,7 @@
 #include "clsTransactionScreen.h"
 #include "clsManageUserMenu.h"
 #include "Global.h"
+#include "clsLoginRegisterScreen.h"
 class clsMainScreen : protected clsScreen
 {
 private:
@@ -24,7 +25,8 @@ private:
         eFindClient = 5,
         eShowTransactionsMenu = 6,
         eManageUsers = 7,
-        eExit = 8
+        eLoginRegister = 8,
+        eLogout = 9
     };
     static void _ShowAllClientScreen()
     {
@@ -57,6 +59,10 @@ private:
 
        clsManageUserMenu::ShowManageUsersMenu();
     }
+    static void __ShowLoginRegisterScreen()
+    {
+        clsLoginRegisterScreen::ShowLoginRegisterScreen();
+    }
     static void _Logout()
     {
         CurrentUser = clsUser::Find("","");
@@ -65,7 +71,7 @@ private:
     static int _ReadMainMenuOption()
     {
         std::cout << std::setw(37) << std::left << "" << "Choose what do you want to do [1 to 8]: ";
-        int choice = clsInputValidation::ReadIntNumberBetween(1, 8, "Enter Number between 1 to 8? ");
+        int choice = clsInputValidation::ReadIntNumberBetween(1, 9, "Enter Number between 1 to 9? ");
 
         return choice;
     }
@@ -131,7 +137,14 @@ private:
             _ShowManageUserMenu();
             break;
         }
-        case enMainMenuOptions::eExit:
+        case enMainMenuOptions::eLoginRegister:
+        {
+            _ClearScreen();
+            __ShowLoginRegisterScreen();
+            _GoBackToMainMenu();
+            break;
+        }
+        case enMainMenuOptions::eLogout:
         {
             _ClearScreen();
             _Logout();
@@ -165,10 +178,11 @@ public:
             std::cout << std::setw(37) << std::left << "" << "\t[5] Find Client.\n";
             std::cout << std::setw(37) << std::left << "" << "\t[6] Transactions.\n";
             std::cout << std::setw(37) << std::left << "" << "\t[7] Manage Users.\n";
-            std::cout << std::setw(37) << std::left << "" << "\t[8] Logout.\n";
+            std::cout << std::setw(37) << std::left << "" << "\t[8] Login Register.\n";
+            std::cout << std::setw(37) << std::left << "" << "\t[9] Logout.\n";
             std::cout << std::setw(37) << std::left << "" << "===========================================\n";
             Option = (enMainMenuOptions)_ReadMainMenuOption();
             _PerformMainMenuOption(Option);
-        } while (Option != enMainMenuOptions::eExit);
+        } while (Option != enMainMenuOptions::eLogout);
     }
 };
