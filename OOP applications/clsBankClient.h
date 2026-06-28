@@ -322,7 +322,7 @@ public:
         Save();
         return true;
     }
-    bool Transfer(const double &Amount, clsBankClient &DestinationClient,std::string UserName)
+    bool Transfer(const double &Amount, clsBankClient &DestinationClient, std::string UserName)
     {
         if (Amount > _AccountBalance)
         {
@@ -330,7 +330,50 @@ public:
         }
         this->Withdraw(Amount);
         DestinationClient.Deposit(Amount);
-        _RegisterTransferLog(DestinationClient, Amount,UserName);
+        _RegisterTransferLog(DestinationClient, Amount, UserName);
         return true;
+    }
+    struct stTransferLogRecord
+    {
+        std::string DateTime;
+        std::string SourceAccountNumber;
+        std::string DestinationAccountNumber;
+        double Amount;
+        double SourceBalance;
+        double DestinationBalance;
+        std::string UserName;
+    };
+    static stTransferLogRecord _ConvertLineDataTostTransferLogRecord(const std::string &Line, std::string Separator = "#//#")
+    {
+        std::vector<std::string> vString = clsString::Split(Line, Separator);
+        if (vString.size() != 7)
+        {
+            std::cout << "Error, ..\n\n";
+        }
+        stTransferLogRecord TransferLog;
+        TransferLog.DateTime = vString[0];
+        TransferLog.SourceAccountNumber = vString[1];
+        TransferLog.DestinationAccountNumber = vString[2];
+        TransferLog.Amount = std::stod(vString[3]);
+        TransferLog.SourceBalance = std::stod(vString[4]);
+        TransferLog.DestinationBalance = std::stod(vString[5]);
+        TransferLog.UserName = vString[6];
+        return TransferLog;
+    }
+    static std::vector<stTransferLogRecord> GetTransferLogList()
+    {
+        std::vector<stTransferLogRecord> vTransfersLog;
+        std::fstream MyFile;
+        MyFile.open("TransferLog.txt", std::ios::in);
+        if (MyFile.is_open())
+        {
+            std::string Line;
+            while (getline(MyFile, Line))
+            {
+                vTransfersLog.push_back(_ConvertLineDataTostTransferLogRecord(Line));
+            }
+            MyFile.close();
+        }
+        return vTransfersLog;
     }
 };
