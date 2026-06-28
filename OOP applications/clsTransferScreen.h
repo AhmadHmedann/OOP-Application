@@ -61,7 +61,7 @@ public:
         std::cin >> Confirm;
         if (std::tolower(Confirm) == 'y')
         {
-            if (SourceClient.Transfer(Amount, DestinationClient))
+            if (SourceClient.Transfer(Amount, DestinationClient,CurrentUser.UserName()))
             {
                 cout << "\nTransfer done successfully\n";
             }

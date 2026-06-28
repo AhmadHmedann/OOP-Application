@@ -5,6 +5,7 @@
 #include <fstream>
 #include "clsString.h"
 #include "clsPerson.h"
+#include "clsDate.h"
 class clsBankClient : public clsPerson
 {
 private:
@@ -105,6 +106,22 @@ private:
         }
 
         MyFile.close();
+    }
+    std::string _PrepareTransferLog(const clsBankClient &DestinationClient, const double &Amount, std::string UserName, std::string Separator = "#//#")
+    {
+        return clsDate::GetSystemDateTimeString() + Separator + _AccountNumber + Separator + DestinationClient.AccountNumber() + Separator + std::to_string(Amount) + Separator + std::to_string(_AccountBalance) + Separator + std::to_string(DestinationClient.AccountBalance()) + Separator + UserName;
+    }
+
+    void _RegisterTransferLog(const clsBankClient &DestinationClient, const double &Amount, std::string UserName)
+    {
+        std::fstream MyFile;
+        std::string DataLine = _PrepareTransferLog(DestinationClient, Amount, UserName);
+        MyFile.open("TransferLog.txt", std::ios::out | std::ios::app);
+        if (MyFile.is_open())
+        {
+            MyFile << DataLine << std::endl;
+            MyFile.close();
+        }
     }
 
 public:
@@ -297,7 +314,7 @@ public:
     }
     bool Withdraw(double amount)
     {
-        if(amount>_AccountBalance)
+        if (amount > _AccountBalance)
         {
             return false;
         }
@@ -305,14 +322,15 @@ public:
         Save();
         return true;
     }
-    bool Transfer(const double &Amount,clsBankClient &DestinationClient)
+    bool Transfer(const double &Amount, clsBankClient &DestinationClient,std::string UserName)
     {
-        if(Amount>_AccountBalance)
+        if (Amount > _AccountBalance)
         {
             return false;
         }
         this->Withdraw(Amount);
         DestinationClient.Deposit(Amount);
+        _RegisterTransferLog(DestinationClient, Amount,UserName);
         return true;
     }
 };
