@@ -363,26 +363,5 @@ public:
 
         return vLoginRegisterRecord;
     }
-    //          Encrypt Password in a file
-    //I must Update  the password in the file with Encrypted Password
-    // I can make a function for that reason 
-    // static std::string ConvertLoginRegisterRecordToLine(const stLoginRegisterRecord &log , std::string Separator = "#//#")
-    // {
-    //     return log.DateTime + Separator + log.UserName + Separator + clsUtilities::EncryptText(log.Password) + Separator + std::to_string(log.Permissions);
-    // }
-    // static void UpdateLoginRegisterFile()
-    // {
-    //     std::vector<stLoginRegisterRecord> vLogs =GetLoginRegisterList();
-    //     std::fstream MyFile;
-    //     MyFile.open("LoginRegister.txt",std::ios::out);
-    //     if(MyFile.is_open())
-    //     {
-    //         for(const stLoginRegisterRecord &Log : vLogs)
-    //         {
-    //             MyFile<<ConvertLoginRegisterRecordToLine(Log)<<std::endl;
-    //         }
-    //         MyFile.close();
-    //     }
-        
-    // }  
+   
 };

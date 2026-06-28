@@ -11,7 +11,6 @@ int main()
     {
         if (!clsLoginScreen::ShowLoginScreen())
         {
-            // clsUser::UpdateLoginRegisterFile();
             break;
         }
     }
