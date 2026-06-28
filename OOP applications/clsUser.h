@@ -8,12 +8,12 @@
 #include "clsPerson.h"
 #include "clsInputValidation.h"
 #include "clsString.h"
+#include "clsUtilities.h"
 
 class clsUser : public clsPerson
 {
 
 private:
-
     std::string _UserName;
     std::string _Password;
     int _Permissions;
@@ -38,12 +38,14 @@ private:
         {
             return GetEmptyUser();
         }
-        return clsUser(enMode::UpdateMode, vString[0], vString[1], vString[2], vString[3], vString[4], vString[5], std::stoi(vString[6]));
+        std::string DecryptPassword = clsUtilities::DecryptText(vString[5]);
+        return clsUser(enMode::UpdateMode, vString[0], vString[1], vString[2], vString[3], vString[4], DecryptPassword, std::stoi(vString[6]));
     }
 
     static std::string _ConvertUserObjectToLine(clsUser User, std::string Separator = "#//#")
     {
-        return User.FirstName() + Separator + User.LastName() + Separator + User.Email() + Separator + User.Phone() + Separator + User.UserName() + Separator + User.Password() + Separator + std::to_string(User.Permissions());
+        std::string EnCryptPassword = clsUtilities::EncryptText(User.Password());
+        return User.FirstName() + Separator + User.LastName() + Separator + User.Email() + Separator + User.Phone() + Separator + User.UserName() + Separator + EnCryptPassword + Separator + std::to_string(User.Permissions());
     }
     static std::vector<clsUser> _LoadUsersDataFromFile()
     {
@@ -56,7 +58,7 @@ private:
             while (getline(Myfile, Line))
             {
                 vUsers.push_back(_ConvertLineToUserObject(Line));
-            }
+            }   
             Myfile.close();
         }
         return vUsers;
@@ -108,8 +110,10 @@ private:
 
     std::string _PrepareLoginRecord(std::string Separator = "#//#")
     {
-        return clsDate::GetSystemDateTimeString() + Separator + UserName() + Separator + Password() + Separator + std::to_string(Permissions());
+        std::string EncryptPassword = clsUtilities::EncryptText(Password());
+        return clsDate::GetSystemDateTimeString() + Separator + UserName() + Separator + EncryptPassword + Separator + std::to_string(Permissions());
     }
+
 public:
 
     clsUser(enMode Mode, std::string FirstName, std::string LastName, std::string Email, std::string Phone, std::string UserName, std::string Password, int Permissions)
@@ -241,7 +245,7 @@ public:
             }
         }
         default:
-           return enSaveResults::svFailedEmptyObject;
+            return enSaveResults::svFailedEmptyObject;
         }
     }
     bool Delete()
@@ -286,11 +290,11 @@ public:
     };
     bool CheckAccessPermission(enPermissions Permissions)
     {
-        if(this->Permissions() == enPermissions::pAll)
-        return true;
+        if (this->Permissions() == enPermissions::pAll)
+            return true;
 
-        return ((this->Permissions() & Permissions )== Permissions);
-    }    
+        return ((this->Permissions() & Permissions) == Permissions);
+    }
     void RegisterLogin()
     {
         std::string DataLine = _PrepareLoginRecord();
@@ -323,9 +327,11 @@ public:
         {
             std::cout << "Error, ...\n\n";
         }
+        std::string DecryptPassword = clsUtilities::DecryptText(LoginRegisterDataLine[2]);
+
         LoginRegisterRecord.DateTime = LoginRegisterDataLine[0];
         LoginRegisterRecord.UserName = LoginRegisterDataLine[1];
-        LoginRegisterRecord.Password = LoginRegisterDataLine[2];
+        LoginRegisterRecord.Password = DecryptPassword;
         LoginRegisterRecord.Permissions = std::stoi(LoginRegisterDataLine[3]);
 
         return LoginRegisterRecord;
@@ -357,4 +363,26 @@ public:
 
         return vLoginRegisterRecord;
     }
+    //          Encrypt Password in a file
+    //I must Update  the password in the file with Encrypted Password
+    // I can make a function for that reason 
+    // static std::string ConvertLoginRegisterRecordToLine(const stLoginRegisterRecord &log , std::string Separator = "#//#")
+    // {
+    //     return log.DateTime + Separator + log.UserName + Separator + clsUtilities::EncryptText(log.Password) + Separator + std::to_string(log.Permissions);
+    // }
+    // static void UpdateLoginRegisterFile()
+    // {
+    //     std::vector<stLoginRegisterRecord> vLogs =GetLoginRegisterList();
+    //     std::fstream MyFile;
+    //     MyFile.open("LoginRegister.txt",std::ios::out);
+    //     if(MyFile.is_open())
+    //     {
+    //         for(const stLoginRegisterRecord &Log : vLogs)
+    //         {
+    //             MyFile<<ConvertLoginRegisterRecordToLine(Log)<<std::endl;
+    //         }
+    //         MyFile.close();
+    //     }
+        
+    // }  
 };
