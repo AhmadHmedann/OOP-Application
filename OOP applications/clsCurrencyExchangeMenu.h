@@ -3,6 +3,7 @@
 #include <iomanip>
 #include "clsScreen.h"
 #include "clsCurrenciesLisScreen.h"
+#include "clsFindCurrencyScreen.h"
 
 class clsCurrencyExchangeMenuScreen : protected clsScreen
 {
@@ -39,7 +40,7 @@ private:
     }
     static void _ShowFindCurrencyScreen()
     {
-        std::cout << "Find Clinet Screen Will be here soon";
+        clsFindCurrencyScreen::ShowFindCurrencyScreen();
     }
     static void _ShowUpdateRateScreen()
     {
