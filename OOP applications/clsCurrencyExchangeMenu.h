@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iomanip>
 #include "clsScreen.h"
+#include "clsCurrenciesLisScreen.h"
 
 class clsCurrencyExchangeMenuScreen : protected clsScreen
 {
@@ -34,7 +35,7 @@ private:
     }
     static void _ShowListScreen()
     {
-        std::cout << "Show List Will be here";
+        clsCurrenciesListScreen::ShowCurrenciesListScreen();
     }
     static void _ShowFindCurrencyScreen()
     {
