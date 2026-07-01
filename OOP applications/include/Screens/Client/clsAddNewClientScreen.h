@@ -12,7 +12,7 @@ private:
     {
         std::cout << "\nEnter FirstName: ";
         Client.SetFirstName(clsInputValidation::ReadString());
-        std::cout << "\nEnter LastName; ";
+        std::cout << "\nEnter LastName: ";
         Client.SetLastName(clsInputValidation::ReadString());
         std::cout << "\nEnter Email: ";
         Client.SetEmail(clsInputValidation::ReadString());
@@ -20,7 +20,7 @@ private:
         Client.SetPhone(clsInputValidation::ReadString());
         std::cout << "\nEnter PinCode: ";
         Client.SetPinCode(clsInputValidation::ReadString());
-        std::cout << "\nEnter Account Balance; ";
+        std::cout << "\nEnter Account Balance: ";
         Client.SetAccountBalance(clsInputValidation::ReadFloatNumber());
     }
     static void _PrintClient(const clsBankClient &Client)
